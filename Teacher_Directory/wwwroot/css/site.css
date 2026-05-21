@@ -29,3 +29,13 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+.btn-xl-comic {
+    padding: 100px 150px;
+    font-size: 120px;
+    line-height: 1;
+}
+
+.huge-title {
+    font-size: clamp(1.5rem, 4vw, 20rem);
+}
