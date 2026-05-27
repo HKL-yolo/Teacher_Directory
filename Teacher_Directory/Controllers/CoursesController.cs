@@ -49,8 +49,8 @@ namespace Teacher_Directory.Controllers
         // GET: Courses/Create
         public IActionResult Create()
         {
-            ViewData["SubjectId"] = new SelectList(_context.Set<Subject>(), "Id", "Id");
-            ViewData["TeacherId"] = new SelectList(_context.Set<Teacher>(), "Id", "Id");
+            ViewData["SubjectId"] = new SelectList(_context.Set<Subject>(), "Id", "SubjectName");
+            ViewData["TeacherId"] = new SelectList(_context.Set<Teacher>(), "Id", "FullName");
             return View();
         }
 
@@ -67,8 +67,8 @@ namespace Teacher_Directory.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SubjectId"] = new SelectList(_context.Set<Subject>(), "Id", "Id", course.SubjectId);
-            ViewData["TeacherId"] = new SelectList(_context.Set<Teacher>(), "Id", "Id", course.TeacherId);
+            ViewData["SubjectId"] = new SelectList(_context.Set<Subject>(), "Id", "SubjectName", course.SubjectId);
+            ViewData["TeacherId"] = new SelectList(_context.Set<Teacher>(), "Id", "FullName", course.TeacherId);
             return View(course);
         }
 
@@ -85,8 +85,8 @@ namespace Teacher_Directory.Controllers
             {
                 return NotFound();
             }
-            ViewData["SubjectId"] = new SelectList(_context.Set<Subject>(), "Id", "Id", course.SubjectId);
-            ViewData["TeacherId"] = new SelectList(_context.Set<Teacher>(), "Id", "Id", course.TeacherId);
+            ViewData["SubjectId"] = new SelectList(_context.Set<Subject>(), "Id", "SubjectName", course.SubjectId);
+            ViewData["TeacherId"] = new SelectList(_context.Set<Teacher>(), "Id", "FullName", course.TeacherId);
             return View(course);
         }
 

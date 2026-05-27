@@ -48,7 +48,7 @@ namespace Teacher_Directory.Controllers
         // GET: Teachers/Create
         public IActionResult Create()
         {
-            ViewData["DepartmentId"] = new SelectList(_context.Department, "Id", "Id");
+            ViewData["DepartmentId"] = new SelectList(_context.Department, "Id", "DepartmentName");
             return View();
         }
 

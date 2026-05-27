@@ -23,5 +23,13 @@ namespace Teacher_Directory.Models
         public string? Position { get; set; }
         public Department? Department { get; set; }
         public ICollection<Course>? Course { get; set; }
+
+        public string FullName
+        {
+            get
+            {
+                return Firstname + " " + Lastname;
+            }
+        }
     }
 }

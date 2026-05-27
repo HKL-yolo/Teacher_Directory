@@ -9,6 +9,8 @@ namespace Teacher_Directory.Models
         public string Room_Num { get; set; }
         [Range(9, 13, ErrorMessage = "Please enter correct year level")]
         public int Year { get; set; }
+        
+        // Del Name later 
         public string Name { get; set; }
         [Display(Name = "Teacher code")]
         public int? TeacherId { get; set; }
