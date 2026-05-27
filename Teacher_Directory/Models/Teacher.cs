@@ -8,7 +8,7 @@ namespace Teacher_Directory.Models
     }
     public class Teacher
     {
-        public required int Id { get; set; }
+        public  int Id { get; set; }
         [RegularExpression(@"^[A-Z]{3}$", ErrorMessage = "Teacher code should be 3 capital letter")]
 
         public required string Teachercode { get; set; }

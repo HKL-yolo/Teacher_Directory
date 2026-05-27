@@ -11,7 +11,6 @@ namespace Teacher_Directory.Models
         public int Year { get; set; }
         
         // Del Name later 
-        public string Name { get; set; }
         [Display(Name = "Teacher code")]
         public int? TeacherId { get; set; }
         public Teacher? Teacher { get; set; }
