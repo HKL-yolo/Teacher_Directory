@@ -37,5 +37,5 @@ body {
 }
 
 .huge-title {
-    font-size: clamp(1.5rem, 4vw, 20rem);
+    font-size: clamp(1.5rem, 2.5vw, 20rem);
 }
