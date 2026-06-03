@@ -45,16 +45,18 @@
         {
             <tr>
                 <td>
+                    <button type="button"
+                            class="btn btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#myModal-@item.Id">
+                        @item.Teacher.FullName
+                    </button>
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Room_Num)
                 </td>
                 <td>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-                        @Html.DisplayFor(modelItem => item.Year)
-                    </button>
-                </td>
-               
-                <td>
-                    @Html.DisplayFor(modelItem => item.Teacher.FullName)
+                    @Html.DisplayFor(modelItem => item.Year)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Subject.SubjectName)
@@ -68,32 +70,39 @@
                     </td>
                 }
             </tr>
+            <div class="modal" id="myModal-@item.Id">
+                <div class="modal-dialog modal-fullscreen">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h4 class="modal-title">Year Details</h4>
+                            <button type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            Name:@item.Teacher.FullName
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button"
+                                    class="btn btn-danger"
+                                    data-bs-dismiss="modal">
+                                Back
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         }
     </tbody>
 </table>
 
+                    
+              
 
-<div class="modal" id="myModal">
-    <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content">
+                
 
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Modal Heading</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body">
-                Modal body..
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Back</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-</table>
+               
