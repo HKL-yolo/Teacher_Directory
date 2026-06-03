@@ -11,11 +11,11 @@ using Teacher_Directory.ViewModels;
 
 namespace Teacher_Directory.Controllers
 {
-    public class TestController : Controller
+    public class ListController : Controller
     {
         private readonly DBContext _context;
 
-        public TestController(DBContext context)
+        public ListController(DBContext context)
         {
             _context = context;
         }
