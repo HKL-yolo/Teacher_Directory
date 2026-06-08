@@ -38,4 +38,14 @@ body {
 
 .huge-title {
     font-size: clamp(1.5rem, 2.5vw, 20rem);
-}
+
+    .teacher-link {
+        color: #0d6efd;
+        text-decoration: none;
+        cursor: pointer;
+        font-weight: 500;
+    }
+
+        .teacher-link:hover {
+            text-decoration: underline;
+        }
