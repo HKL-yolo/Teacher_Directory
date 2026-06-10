@@ -100,9 +100,9 @@
                                     <div class="row">
                                         <div class="col-md-4 text-center">
 
-                                            @if (!string.IsNullOrEmpty(item.Teacher.PhotoURL))
+                                            @if (!string.IsNullOrEmpty(item.PhotoURL))
                                             {
-                                                <img src="@item.Teacher.PhotoURL"
+                                                <img src="@item.PhotoURL"
                                                      style="width:100px;height:100px;object-fit:contain;" />
                                             }
                                             else
@@ -135,9 +135,9 @@
                                                 @item.Gender
                                             </p>
 
-                                            <p>
+                                            @* <p>
                                                 <strong>Room:</strong>
-                                                @item.Course.Room_Num
+                                                @item.Room_Num
                                             </p>
                                             <p>
                                                 <strong>Room:</strong>
@@ -152,7 +152,7 @@
                                             <p>
                                                 <strong>Subject:</strong>
                                                 @item.Subject?.SubjectName
-                                            </p>
+                                            </p> *@
 
                                         </div>
 

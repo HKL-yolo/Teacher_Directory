@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Teacher_Directory.Areas.Identity.Data;
 using Teacher_Directory.Models;
-using Microsoft.AspNetCore.Http;
-using System.IO;
 
 namespace Teacher_Directory.Controllers
 {
@@ -21,12 +19,19 @@ namespace Teacher_Directory.Controllers
             _context = context;
         }
 
-        // GET: Teachers
+        // GET: Courses
         public async Task<IActionResult> Index()
         {
-            var dBContext = _context.Teacher.Include(t => t.Department);
+            var dBContext = _context.Course.Include(c => c.Subject).Include(c => c.Teacher);
             return View(await dBContext.ToListAsync());
         }
+
+        //// GET: Teachers
+        //public async Task<IActionResult> Index()
+        //{
+        //    var dBContext = _context.Teacher.Include(t => t.Department).Include(t => t.Course);
+        //    return View(await dBContext.ToListAsync());
+        //}
 
         // GET: Teachers/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -68,6 +73,7 @@ namespace Teacher_Directory.Controllers
             if (ModelState.IsValid)
             {
                 // 如果有上傳圖片
+
                 if (PhotoFile != null)
                 {
                     // 建立 unique file name
