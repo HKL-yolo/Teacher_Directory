@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Teacher_Directory.Areas.Identity.Data;
 using Teacher_Directory.Models;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace Teacher_Directory.Controllers
 {
@@ -57,15 +59,50 @@ namespace Teacher_Directory.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Teachercode,Email,Firstname,Lastname,Gender,PhotoURL,DepartmentId,Position")] Teacher teacher)
+        public async Task<IActionResult> Create(
+    [Bind("Id,Teachercode,Email,Firstname,Lastname,Gender,DepartmentId,Position")]
+    Teacher teacher,
+
+    IFormFile PhotoFile)
         {
             if (ModelState.IsValid)
             {
+                // 如果有上傳圖片
+                if (PhotoFile != null)
+                {
+                    // 建立 unique file name
+                    string fileName = Guid.NewGuid().ToString()
+                                      + Path.GetExtension(PhotoFile.FileName);
+
+                    // 圖片儲存位置
+                    string path = Path.Combine(
+                        Directory.GetCurrentDirectory(),
+                        "wwwroot/images",
+                        fileName);
+
+                    // 儲存圖片
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await PhotoFile.CopyToAsync(stream);
+                    }
+
+                    // 存入資料庫
+                    teacher.PhotoURL = "/images/" + fileName;
+                }
+
                 _context.Add(teacher);
+
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Department, "Id", "Id", teacher.DepartmentId);
+
+            ViewData["DepartmentId"] =
+                new SelectList(_context.Department,
+                "Id",
+                "DepartmentName",
+                teacher.DepartmentId);
+
             return View(teacher);
         }
 

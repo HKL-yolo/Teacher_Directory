@@ -53,7 +53,15 @@
                 @Html.DisplayFor(modelItem => item.Gender)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PhotoURL)
+                    @if (!string.IsNullOrEmpty(item.PhotoURL))
+                    {
+                        <img src="@item.PhotoURL"
+                             style="width:100px;height:100px;object-fit:contain;" />
+                    }
+                    else
+                    {
+                        <span>No Photo</span>
+                    }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Position)

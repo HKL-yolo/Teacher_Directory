@@ -93,17 +93,22 @@
                 </button>
             </div>
 
-            <div class="modal-body">
+            <div class="modal-body"> 
 
                 <div class="container">
 
                     <div class="row">
                         <div class="col-md-4 text-center">
 
-                            <img src="@item.Teacher?.PhotoURL"
-                                 class="img-fluid rounded shadow-sm mb-3"
-                                 style="max-height:250px;"
-                                 alt="Teacher Photo" />
+                                        @if (!string.IsNullOrEmpty(item.Teacher.PhotoURL))
+                                        {
+                                            <img src="@item.Teacher.PhotoURL"
+                                                 style="width:100px;height:100px;object-fit:contain;" />
+                                        }
+                                        else
+                                        {
+                                            <span>No Photo</span>
+                                        }
 
                         </div>
 
@@ -130,6 +135,10 @@
                                 @item.Teacher?.Gender
                             </p>
 
+                            <p>
+                                <strong>Room:</strong>
+                                @item.Room_Num
+                            </p>
                             <p>
                                 <strong>Room:</strong>
                                 @item.Room_Num

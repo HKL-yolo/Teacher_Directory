@@ -1,0 +1,183 @@
+﻿@model IEnumerable<Teacher_Directory.Models.Teacher>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Teachercode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhotoURL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Position)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Department)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teachercode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.PhotoURL))
+                    {
+                        <img src="@item.PhotoURL"
+                             style="width:100px;height:100px;object-fit:contain;" />
+                    }
+                    else
+                    {
+                        <span>No Photo</span>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Position)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Department.DepartmentName)
+                </td>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                }
+                <div class="modal fade" id="myModal-@item.Id" tabindex="-1">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content shadow">
+
+                            <div class="modal-header bg-primary text-white">
+                                <h4 class="modal-title">
+                                    Teacher Details
+                                </h4>
+
+                                <button type="button"
+                                        class="btn-close btn-close-white"
+                                        data-bs-dismiss="modal">
+                                </button>
+                            </div>
+
+                            <div class="modal-body">
+
+                                <div class="container">
+
+                                    <div class="row">
+                                        <div class="col-md-4 text-center">
+
+                                            @if (!string.IsNullOrEmpty(item.Teacher.PhotoURL))
+                                            {
+                                                <img src="@item.Teacher.PhotoURL"
+                                                     style="width:100px;height:100px;object-fit:contain;" />
+                                            }
+                                            else
+                                            {
+                                                <span>No Photo</span>
+                                            }
+
+                                        </div>
+
+                                        <div class="col-md-8">
+
+                                            <h3 class="fw-bold">
+                                                @item.FullName
+                                            </h3>
+
+                                            <hr />
+
+                                            <p>
+                                                <strong>Email:</strong>
+                                                @item.Email
+                                            </p>
+
+                                            <p>
+                                                <strong>Position:</strong>
+                                                @item.Position
+                                            </p>
+
+                                            <p>
+                                                <strong>Gender:</strong>
+                                                @item.Gender
+                                            </p>
+
+                                            <p>
+                                                <strong>Room:</strong>
+                                                @item.Course.Room_Num
+                                            </p>
+                                            <p>
+                                                <strong>Room:</strong>
+                                                @item.Room_Num
+                                            </p>
+
+                                            <p>
+                                                <strong>Year:</strong>
+                                                @item.Year
+                                            </p>
+
+                                            <p>
+                                                <strong>Subject:</strong>
+                                                @item.Subject?.SubjectName
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+
+                                <button type="button"
+                                        class="btn btn-secondary"
+                                        data-bs-dismiss="modal">
+                                    Close
+                                </button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                }
+            </tr>
+
+        }
+    </tbody>
+</table>
