@@ -45,7 +45,3 @@ body {
         cursor: pointer;
         font-weight: 500;
     }
-
-        .teacher-link:hover {
-            text-decoration: underline;
-        }

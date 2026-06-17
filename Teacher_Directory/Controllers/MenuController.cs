@@ -19,19 +19,19 @@ namespace Teacher_Directory.Controllers
             _context = context;
         }
 
-        // GET: Courses
-        public async Task<IActionResult> Index()
-        {
-            var dBContext = _context.Course.Include(c => c.Subject).Include(c => c.Teacher);
-            return View(await dBContext.ToListAsync());
-        }
-
-        //// GET: Teachers
+        //// GET: Courses
         //public async Task<IActionResult> Index()
         //{
-        //    var dBContext = _context.Teacher.Include(t => t.Department).Include(t => t.Course);
+        //    var dBContext = _context.Course.Include(c => c.Subject).Include(c => c.Teacher);
         //    return View(await dBContext.ToListAsync());
         //}
+
+        // GET: Teachers
+        public async Task<IActionResult> Index()
+        {
+            var dBContext = _context.Teacher.Include(t => t.Department).Include(t => t.Course);
+            return View(await dBContext.ToListAsync());
+        }
 
         // GET: Teachers/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -43,6 +43,7 @@ namespace Teacher_Directory.Controllers
 
             var teacher = await _context.Teacher
                 .Include(t => t.Department)
+                .Include(t => t.Course)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (teacher == null)
             {

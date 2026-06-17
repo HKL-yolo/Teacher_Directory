@@ -1,73 +1,197 @@
 ﻿@model IEnumerable<Teacher_Directory.Models.Course>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Teacher Directory";
 }
 
-<h1>Teacher List</h1>
+<div class="container py-5">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<form asp-action="Index" method="get">
+    <!-- TOP -->
+    <div class="d-flex justify-content-between align-items-center mb-5">
 
-    <input type="text"
-           name="searchString"
-           placeholder="Search..." />
+        <div>
 
-    <input type="submit"
-           value="Submit"
-           class="btn btn-primary" />
+            <h1 class="fw-bold display-5 text-primary">
+                Teacher Directory
+            </h1>
 
-</form>
+            <p class="text-muted">
+                School Management System
+            </p>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Room_Num)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Year)
-            </th>
+        </div>
 
-            <th>
-                @Html.DisplayNameFor(model => model.Teacher)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Subject)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Room_Num)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Year)
-                </td>
+        <a asp-action="Create"
+           class="btn btn-primary btn-lg shadow">
+            + Add Course
+        </a>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Teacher.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Subject.SubjectName)
-                </td>
-                @if (User.Identity?.IsAuthenticated == true)
-                {
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                }
-            </tr>
-        }
-    </tbody>
-</table>
+    </div>
 
-<div class="card"></div>
+    <!-- SEARCH -->
+    <div class="card shadow-lg border-0 rounded-4 mb-4">
+
+        <div class="card-body p-4">
+
+            <form asp-action="Index" method="get">
+
+                <div class="input-group input-group-lg">
+
+                    <input type="text"
+                           name="searchString"
+                           class="form-control"
+                           placeholder="Search teacher or subject..." />
+
+                    <button class="btn btn-primary">
+                        Search
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- TABLE -->
+    <div class="card border-0 shadow-lg rounded-4">
+
+        <div class="card-body p-4">
+
+            <table class="table align-middle">
+
+                <thead>
+
+                    <tr class="text-secondary">
+
+                        <th>Teacher</th>
+                        <th>Room</th>
+                        <th>Year</th>
+                        <th>Subject</th>
+
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <th class="text-center">
+                                Actions
+                            </th>
+                        }
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr style="height:90px;">
+
+                            <!-- TEACHER -->
+                            <td>
+
+                                <div class="d-flex align-items-center">
+
+                                    @if (!string.IsNullOrEmpty(item.Teacher?.PhotoURL))
+                                    {
+                                        <img src="@item.Teacher.PhotoURL"
+                                             style="
+                                        width:60px;
+                                        height:60px;
+                                        border-radius:50%;
+                                        object-fit:cover;
+                                        margin-right:15px;
+                                        border:3px solid #0d6efd;" />
+                                    }
+                                    else
+                                    {
+                                        <div style="
+                                            width:60px;
+                                            height:60px;
+                                            border-radius:50%;
+                                            background:#e9ecef;
+                                            margin-right:15px;">
+                                        </div>
+                                    }
+
+                                    <div>
+
+                                        <div class="fw-bold fs-5">
+                                            @item.Teacher?.FullName
+                                        </div>
+
+                                        <small class="text-muted">
+                                            @item.Teacher?.Email
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <!-- ROOM -->
+                            <td>
+
+                                <span class="badge bg-dark fs-6 px-3 py-2">
+                                    @item.Room_Num
+                                </span>
+
+                            </td>
+
+                            <!-- YEAR -->
+                            <td>
+
+                                <span class="fw-semibold">
+                                    Year @item.Year
+                                </span>
+
+                            </td>
+
+                            <!-- SUBJECT -->
+                            <td>
+
+                                <span class="badge bg-primary fs-6 px-3 py-2">
+                                    @item.Subject?.SubjectName
+                                </span>
+
+                            </td>
+
+                            <!-- ACTIONS -->
+                            @if (User.Identity?.IsAuthenticated == true)
+                            {
+                                <td class="text-center">
+
+                                    <a asp-action="Edit"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-outline-primary btn-sm">
+                                        Edit
+                                    </a>
+
+                                    <a asp-action="Details"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-outline-secondary btn-sm">
+                                        Details
+                                    </a>
+
+                                    <a asp-action="Delete"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-outline-danger btn-sm">
+                                        Delete
+                                    </a>
+
+                                </td>
+                            }
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>

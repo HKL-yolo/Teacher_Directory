@@ -24,7 +24,7 @@ namespace Teacher_Directory.Controllers
         // GET: Teachers
         public async Task<IActionResult> Index()
         {
-            var dBContext = _context.Teacher.Include(t => t.Department);
+            var dBContext = _context.Teacher.Include(t => t.Department).Include(t => t.Course);
             return View(await dBContext.ToListAsync());
         }
 
