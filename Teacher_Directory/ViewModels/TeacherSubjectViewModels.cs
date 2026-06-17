@@ -3,8 +3,8 @@ namespace Teacher_Directory.ViewModels
 {
     public class TeacherSubjectViewModels
     {
-        public IEnumerable<Teacher> Teachers { get; set; } = new List<Teacher>();
-        public IEnumerable<Subject> Subject { get; set; } = new List<Subject>();
+        public List<Teacher> Teachers { get; set; }
+        public List<Subject> Subject { get; set; }
 
     }
 }

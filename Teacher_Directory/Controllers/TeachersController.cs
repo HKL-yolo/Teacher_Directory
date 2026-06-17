@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Teacher_Directory.Areas.Identity.Data;
 using Teacher_Directory.Models;
-using Microsoft.AspNetCore.Http;
-using System.IO;
+using Teacher_Directory.ViewModels;
 
 namespace Teacher_Directory.Controllers
 {
@@ -24,8 +25,14 @@ namespace Teacher_Directory.Controllers
         // GET: Teachers
         public async Task<IActionResult> Index()
         {
-            var dBContext = _context.Teacher.Include(t => t.Department).Include(t => t.Course);
-            return View(await dBContext.ToListAsync());
+            var vm = new TeacherSubjectViewModels();
+
+            vm.Teachers = await _context.Teacher
+                .Include(t => t.Department)
+                .Include(t => t.Course)
+                .ToListAsync();
+
+            return View(vm);
         }
 
         // GET: Teachers/Details/5

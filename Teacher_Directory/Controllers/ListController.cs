@@ -22,21 +22,17 @@ namespace Teacher_Directory.Controllers
 
 
         // GET: Courses
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index()
         {
-            var courses = await _context.Course.Include(c => c.Subject).Include(c => c.Teacher).ToListAsync();
+            var vm = new TeacherSubjectViewModels();
 
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                courses = courses.Where(c =>
-                    c.Teacher.FullName.Contains(searchString) ||
-                    c.Subject.SubjectName.Contains(searchString)
-                ).ToList();
-            }
+            vm.Teachers = await _context.Teacher
+                .Include(t => t.Department)
+                .Include(t => t.Course)
+                .ToListAsync();
 
-            return View(courses);
+            return View(vm);
         }
-
         // GET: Courses/Details/5
         public async Task<IActionResult> Details(int? id)
         {

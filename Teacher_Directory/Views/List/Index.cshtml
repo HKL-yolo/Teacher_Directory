@@ -179,7 +179,7 @@
     </tbody>
 </table> *@
 
-@* @model IEnumerable<Teacher_Directory.Models.Course>
+@model Teacher_Directory.ViewModels.TeacherSubjectViewModels
 
 @{
     ViewData["Title"] = "Teacher Directory";
@@ -283,7 +283,7 @@
 
                     <tbody>
 
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.Teachers)
                         {
                             <tr>
 
@@ -297,9 +297,9 @@
 
                                         <div class="d-flex align-items-center">
 
-                                            @if (!string.IsNullOrEmpty(item.Teacher?.PhotoURL))
+                                            @if (!string.IsNullOrEmpty(item.PhotoURL))
                                             {
-                                                <img src="@item.Teacher.PhotoURL"
+                                                <img src="@item.PhotoURL"
                                                      style="
                                                 width:45px;
                                                 height:45px;
@@ -309,7 +309,7 @@
                                             }
 
                                             <span class="fw-semibold">
-                                                @item.Teacher?.FullName
+                                                @item.FullName
                                             </span>
 
                                         </div>
@@ -319,18 +319,24 @@
                                 </td>
 
                                 <!-- Room -->
-                                <td>
-                                    @item.Room_Num
-                                </td>
+                                    <td>
+                                        @foreach (var c in item.Course ?? Enumerable.Empty<Course>())
+                                        {
+                                            <div>@c.Room_Num</div>
+                                        }
+                                    </td>
 
                                 <!-- Year -->
                                 <td>
-                                    @item.Year
+                                    @foreach (var c in item.Course ?? Enumerable.Empty<Course>())
+                                    {
+                                        <div>@c.Year</div>
+                                    }
                                 </td>
 
                                 <!-- Email -->
                                 <td>
-                                    @item.Teacher?.Email
+                                    @item.Email
                                 </td>
 
                                 <!-- Subject -->
@@ -338,11 +344,22 @@
 
                                     <span class="badge bg-primary">
 
-                                        @item.Subject?.SubjectName
+                                        @item.SubjectName
 
                                     </span>
 
-                                </td>
+                                </td> 
+                                <td>
+                                        @foreach (var c in item.Course ?? Enumerable.Empty<Course>())
+                                        {
+                                            <span class="badge bg-primary">
+
+                                        @c.SubjectName
+
+                                    </span>
+                                        }
+                                    </td>
+                               
 
                                 @if (User.Identity?.IsAuthenticated == true)
                                 {
@@ -404,9 +421,9 @@
                                                     <!-- Photo -->
                                                     <div class="col-md-4 text-center">
 
-                                                        @if (!string.IsNullOrEmpty(item.Teacher?.PhotoURL))
+                                                        @if (!string.IsNullOrEmpty(item.PhotoURL))
                                                         {
-                                                            <img src="@item.Teacher.PhotoURL"
+                                                            <img src="@item.PhotoURL"
                                                                  class="img-fluid rounded-circle border border-3 border-primary"
                                                                  style="
                                                             width:180px;
@@ -427,7 +444,7 @@
 
                                                         <h2 class="fw-bold text-primary">
 
-                                                            @item.Teacher?.FullName
+                                                            @item.FullName
 
                                                         </h2>
 
@@ -435,22 +452,22 @@
 
                                                         <p>
                                                             <strong>Email:</strong>
-                                                            @item.Teacher?.Email
+                                                            @item.Email
                                                         </p>
 
                                                         <p>
                                                             <strong>Position:</strong>
-                                                            @item.Teacher?.Position
+                                                            @item.Position
                                                         </p>
 
                                                         <p>
                                                             <strong>Gender:</strong>
-                                                            @item.Teacher?.Gender
+                                                            @item.Gender
                                                         </p>
 
-                                                        <p>
+                                                        @* <p>
                                                             <strong>Room:</strong>
-                                                            @item.Room_Num
+                                                            @item.Course.Room_Num
                                                         </p>
 
                                                         <p>
@@ -461,7 +478,7 @@
                                                         <p>
                                                             <strong>Subject:</strong>
                                                             @item.Subject?.SubjectName
-                                                        </p>
+                                                        </p> *@
 
                                                     </div>
 
@@ -500,9 +517,9 @@
 
     </div>
 
-</div> *@
+</div>
 
-@model IEnumerable<Teacher_Directory.Models.Teacher>
+@* @model IEnumerable<Teacher_Directory.Models.Teacher>
 
 @{
     ViewData["Title"] = "Index";
@@ -675,4 +692,4 @@
 
         }
     </tbody>
-</table>
+</table> *@
