@@ -29,6 +29,7 @@ namespace Teacher_Directory.Controllers
             vm.Teachers = await _context.Teacher
                 .Include(t => t.Department)
                 .Include(t => t.Course)
+                .ThenInclude(c => c.Subject)
                 .ToListAsync();
 
             return View(vm);
