@@ -36,12 +36,3 @@ body {
     line-height: 1;
 }
 
-.huge-title {
-    font-size: clamp(1.5rem, 2.5vw, 20rem);
-
-    .teacher-link {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-        font-weight: 500;
-    }

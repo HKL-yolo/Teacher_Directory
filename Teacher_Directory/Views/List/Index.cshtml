@@ -1,183 +1,4 @@
-﻿@* @model IEnumerable<Teacher_Directory.Models.Course>
-
-@{
-    ViewData["Title"] = "Index";
-}
-
-<h1>Teacher List</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<form asp-action="Index" method="get">
-
-    <input type="text"
-           name="searchString"
-           placeholder="Search..." />
-
-    <input type="submit"
-           value="Submit"
-           class="btn btn-primary" />
-
-</form>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Teacher)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Room_Num)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Year)
-            </th>
-            
-            <th>
-                Teacher
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Subject)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    <a href="#"
-                       class="teacher-link"
-                       data-bs-toggle="modal"
-                       data-bs-target="#myModal-@item.Id"
-                       onclick="return false;">
-                        @item.Teacher.FullName
-                    </a>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Room_Num)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Year)
-                </td>
-                <td>
-                    @item.Teacher.Email
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.Subject.SubjectName)
-                </td>
-                @if (User.Identity?.IsAuthenticated == true)
-                {
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                }
-            </tr>
-           <div class="modal fade" id="myModal-@item.Id" tabindex="-1">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content shadow">
-
-            <div class="modal-header bg-primary text-white">
-                <h4 class="modal-title">
-                    Teacher Details
-                </h4>
-
-                <button type="button"
-                        class="btn-close btn-close-white"
-                        data-bs-dismiss="modal">
-                </button>
-            </div>
-
-            <div class="modal-body"> 
-
-                <div class="container">
-
-                    <div class="row">
-                        <div class="col-md-4 text-center">
-
-                                        @if (!string.IsNullOrEmpty(item.Teacher.PhotoURL))
-                                        {
-                                            <img src="@item.Teacher.PhotoURL"
-                                                 style="width:100px;height:100px;object-fit:contain;" />
-                                        }
-                                        else
-                                        {
-                                            <span>No Photo</span>
-                                        }
-
-                        </div>
-
-                        <div class="col-md-8">
-
-                            <h3 class="fw-bold">
-                                @item.Teacher?.FullName
-                            </h3>
-
-                            <hr />
-
-                            <p>
-                                <strong>Email:</strong>
-                                @item.Teacher?.Email
-                            </p>
-
-                            <p>
-                                <strong>Position:</strong>
-                                @item.Teacher?.Position
-                            </p>
-
-                            <p>
-                                <strong>Gender:</strong>
-                                @item.Teacher?.Gender
-                            </p>
-
-                            <p>
-                                <strong>Room:</strong>
-                                @item.Room_Num
-                            </p>
-                            <p>
-                                <strong>Room:</strong>
-                                @item.Room_Num
-                            </p>
-
-                            <p>
-                                <strong>Year:</strong>
-                                @item.Year
-                            </p>
-
-                            <p>
-                                <strong>Subject:</strong>
-                                @item.Subject?.SubjectName
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="modal-footer">
-
-                <button type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal">
-                    Close
-                </button>
-
-            </div>
-
-        </div>
-    </div>
-</div>
-        }
-    </tbody>
-</table> *@
+﻿
 
 @model Teacher_Directory.ViewModels.TeacherSubjectViewModels
 
@@ -450,20 +271,29 @@
                                                             @item.Gender
                                                         </p>
 
-                                                        @* <p>
-                                                            <strong>Room:</strong>
-                                                            @item.Course.Room_Num
+                                                        <p>
+                                                            <strong>Room number:</strong>
+                                                            @foreach (var c in item.Course ?? Enumerable.Empty<Course>())
+                                                            {
+                                                                @c.Room_Num
+                                                            }
                                                         </p>
 
                                                         <p>
                                                             <strong>Year:</strong>
-                                                            @item.Year
+                                                            @foreach (var c in item.Course ?? Enumerable.Empty<Course>())
+                                                            {
+                                                                @c.Year
+                                                            }
                                                         </p>
 
                                                         <p>
                                                             <strong>Subject:</strong>
-                                                            @item.Subject?.SubjectName
-                                                        </p> *@
+                                                            @foreach (var c in item.Course ?? Enumerable.Empty<Course>())
+                                                            {
+                                                                @c.Subject?.SubjectName
+                                                            }
+                                                        </p>
 
                                                     </div>
 

@@ -23,6 +23,8 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+                         @if (User.Identity?.IsAuthenticated == true)
+    {
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="List" asp-action="Index">List</a>
                         </li>
@@ -48,6 +50,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Departments" asp-action="Index">Departments</a>
                         </li>
+                        }
                         
                         <partial name="_LoginPartial" />
                     </ul>
@@ -55,7 +58,7 @@
             </div>
         </nav>
     </header>
-    
+   
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
