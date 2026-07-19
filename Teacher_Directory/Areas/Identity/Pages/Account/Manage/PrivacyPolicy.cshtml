@@ -1,0 +1,35 @@
+﻿@page
+@model PrivacyPolicyModel
+@{
+    ViewData["Title"] = "Privacy Policy";
+    ViewData["ActivePage"] = ManageNavPages.PrivacyPolicy;
+    
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<div class="row">
+    <div class="col-md-6">
+        <p>
+            Your privacy is important to us.
+        </p>
+
+        <p>
+            This website is designed to provide information about teachers and the subjects they teach.
+            The information displayed is for educational and directory purposes only.
+        </p>
+
+        <p>
+            We do not collect personal information from visitors and do not use cookies or other tracking
+            technologies.
+        </p>
+
+        <p>
+            We may update this Privacy Policy from time to time. Any changes will be posted on this page.
+        </p>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

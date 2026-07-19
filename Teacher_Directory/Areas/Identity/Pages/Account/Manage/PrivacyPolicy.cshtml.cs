@@ -1,0 +1,37 @@
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
+using Teacher_Directory.Areas.Identity.Data;
+
+namespace Teacher_Directory.Areas.Identity.Pages.Account.Manage
+{
+    public class PrivacyPolicyModel : PageModel
+    {
+        private readonly UserManager<User> _userManager;
+        private readonly ILogger<PrivacyPolicyModel> _logger;
+
+        public PrivacyPolicyModel(
+            UserManager<User> userManager,
+            ILogger<PrivacyPolicyModel> logger)
+        {
+            _userManager = userManager;
+            _logger = logger;
+        }
+
+        public async Task<IActionResult> OnGet()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            return Page();
+        }
+    }
+}
