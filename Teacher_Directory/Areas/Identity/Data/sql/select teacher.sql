@@ -1,1 +1,2 @@
-﻿SELECT * FROM Teacher;
+﻿SELECT *
+FROM Teacher;
