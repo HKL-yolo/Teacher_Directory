@@ -232,6 +232,10 @@ namespace Teacher_Directory.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CourseName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Room_Num")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -279,11 +283,16 @@ namespace Teacher_Directory.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SubjectName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Subject");
                 });
@@ -296,27 +305,35 @@ namespace Teacher_Directory.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("DepartmentId")
+                    b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Firstname")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
                     b.Property<string>("Lastname")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("OfficeLocation")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("PhotoURL")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Position")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Teachercode")
@@ -396,18 +413,33 @@ namespace Teacher_Directory.Migrations
                     b.Navigation("Teacher");
                 });
 
+            modelBuilder.Entity("Teacher_Directory.Models.Subject", b =>
+                {
+                    b.HasOne("Teacher_Directory.Models.Department", "Department")
+                        .WithMany("Subjects")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+                });
+
             modelBuilder.Entity("Teacher_Directory.Models.Teacher", b =>
                 {
                     b.HasOne("Teacher_Directory.Models.Department", "Department")
-                        .WithMany("Teacher")
-                        .HasForeignKey("DepartmentId");
+                        .WithMany("Teachers")
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Department");
                 });
 
             modelBuilder.Entity("Teacher_Directory.Models.Department", b =>
                 {
-                    b.Navigation("Teacher");
+                    b.Navigation("Subjects");
+
+                    b.Navigation("Teachers");
                 });
 
             modelBuilder.Entity("Teacher_Directory.Models.Subject", b =>
