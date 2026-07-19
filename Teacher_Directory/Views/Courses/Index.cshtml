@@ -1,66 +1,96 @@
-﻿@model IEnumerable<Teacher_Directory.Models.Course>
+﻿@model IEnumerable<Teacher_Directory.ViewModels.CourseIndexViewModels>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Course List</h1>
+    <a asp-action="Create" class="btn btn-success"> <i class="bi bi-plus-lg"></i> New Course</a>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<form asp-action="Index" method="get">
 
-    <input type="text"
-           name="searchString"
-           placeholder="Search..." />
+<div class="card shadow border-0">
 
-    <input type="submit"
-           value="Search"
-           class="btn btn-primary" />
+    <div class="card-body">
 
-</form>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Room_Num)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Year)
-            </th>
-            
-            <th>
-                @Html.DisplayNameFor(model => model.Teacher)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Subject)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Room_Num)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Year)
-            </td>
-           
-            <td>
-                @Html.DisplayFor(modelItem => item.Teacher.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subject.SubjectName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-primary">
+
+                    <tr>
+
+                        <th>
+                            Course Name
+                        </th>
+                        <th>
+                            Year
+                        </th>
+
+                        <th>
+                            Subject
+                        </th>
+                        <th>
+                            Teacher
+                        </th>
+                        <th>
+                            Room
+                        </th>
+
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <th>
+                                Actions
+                            </th>
+                        }
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model.OrderBy(c => c.Room_Num))
+                    {
+                        <tr>
+                            <td>
+                                @item.CourseName
+                            </td>
+                            <td>
+                                @item.Year
+                            </td>
+                            <td>
+                                @item.Subject.SubjectName
+                            </td>
+                            <td>
+                                @item.Teacher.FullName
+                            </td>
+                            <td>
+                                @item.Room_Num
+                            </td>
+
+                            @if (User.Identity?.IsAuthenticated == true)
+                            {
+                                <td>
+
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">
+                                        Edit
+                                    </a>
+
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">
+                                        Details
+                                    </a>
+
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">
+                                        Delete
+                                    </a>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
