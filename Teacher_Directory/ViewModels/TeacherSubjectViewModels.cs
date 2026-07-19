@@ -5,6 +5,7 @@ namespace Teacher_Directory.ViewModels
     {
         public List<Teacher> Teachers { get; set; }
         public List<Subject> Subject { get; set; }
+        public List<Course> Courses { get; set; }
 
     }
 }
