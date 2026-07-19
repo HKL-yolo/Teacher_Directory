@@ -22,18 +22,34 @@ namespace Teacher_Directory.Controllers
 
 
         // GET: Courses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? searchString)
         {
+            ViewData["CurrentFilter"] = searchString;
+
             var vm = new TeacherSubjectViewModels();
 
-            vm.Teachers = await _context.Teacher
+
+            var teachersQuery = _context.Teacher
                 .Include(t => t.Department)
                 .Include(t => t.Course)
-                .ThenInclude(c => c.Subject)
-                .ToListAsync();
+                    .ThenInclude(c => c.Subject)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                teachersQuery = teachersQuery.Where(t =>
+                    t.Firstname.Contains(searchString) ||
+                    t.Lastname.Contains(searchString) ||
+                    (t.Department != null &&
+         t.Department.DepartmentName.Contains(searchString)));
+            }
+
+            vm.Teachers = await teachersQuery.ToListAsync();
 
             return View(vm);
+
         }
+
         // GET: Courses/Details/5
         public async Task<IActionResult> Details(int? id)
         {
