@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Teacher_Directory.Areas.Identity.Data;
 using Teacher_Directory.Models;
+using Teacher_Directory.ViewModels;
 
 namespace Teacher_Directory.Controllers
 {
@@ -22,7 +23,17 @@ namespace Teacher_Directory.Controllers
         // GET: Subjects
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Subject.ToListAsync());
+            var subjects = await _context.Subject
+            .Select(s => new SubjectIndexViewModels
+            {
+                Id = s.Id,
+                SubjectName = s.SubjectName,
+                DepartmentName = s.Department!.DepartmentName,
+                CourseCount = s.Course.Count()
+            })
+            .ToListAsync();
+
+            return View(subjects);
         }
 
         // GET: Subjects/Details/5
@@ -34,6 +45,7 @@ namespace Teacher_Directory.Controllers
             }
 
             var subject = await _context.Subject
+                .Include(s => s.Department)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (subject == null)
             {
@@ -46,6 +58,8 @@ namespace Teacher_Directory.Controllers
         // GET: Subjects/Create
         public IActionResult Create()
         {
+            ViewData["DepartmentId"] = new SelectList(_context.Department.OrderBy(d => d.DepartmentName),
+            "Id", "DepartmentName");
             return View();
         }
 
@@ -54,7 +68,7 @@ namespace Teacher_Directory.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,SubjectName")] Subject subject)
+        public async Task<IActionResult> Create([Bind("Id,SubjectName,DepartmentId")] Subject subject)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +76,9 @@ namespace Teacher_Directory.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewData["DepartmentId"] = new SelectList(_context.Department.OrderBy(d => d.DepartmentName),
+            "Id", "DepartmentName");
             return View(subject);
         }
 
@@ -78,6 +95,8 @@ namespace Teacher_Directory.Controllers
             {
                 return NotFound();
             }
+            ViewData["DepartmentId"] = new SelectList(_context.Department.OrderBy(d => d.DepartmentName),
+            "Id", "DepartmentName");
             return View(subject);
         }
 
@@ -86,7 +105,7 @@ namespace Teacher_Directory.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,SubjectName")] Subject subject)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,SubjectName,DepartmentId")] Subject subject)
         {
             if (id != subject.Id)
             {
@@ -125,6 +144,7 @@ namespace Teacher_Directory.Controllers
             }
 
             var subject = await _context.Subject
+                .Include(s => s.Department)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (subject == null)
             {
