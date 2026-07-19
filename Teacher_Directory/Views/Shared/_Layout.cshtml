@@ -22,47 +22,35 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
+                    <ul class="navbar-nav flex-grow-2 gap-2">
+                        @if (User.Identity?.IsAuthenticated != true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link  " asp-area="" asp-controller="List" asp-action="Index">Explore</a>
+                            </li>
+                        }
+
                         @if (User.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="List" asp-action="Index">List</a>
+                                <a class="nav-link  " asp-area="" asp-controller="Teachers" asp-action="Index">Teachers</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="List"
-                                   asp-action="Detail">Detail</a>
+                                <a class="nav-link " asp-area="" asp-controller="Courses" asp-action="Index">Courses</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home"
-                                   asp-action="Privacy">Privacy</a>
+                                <a class="nav-link  " asp-area="" asp-controller="Subjects" asp-action="Index">Subjects</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Menu" asp-action="Index">Menu</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Teachers"
-                                   asp-action="Index">Teachers</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="btn btn-outline-primary" asp-area="" asp-controller="Courses"
-                                   asp-action="Index">Courses</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Subjects"
-                                   asp-action="Index">Subjects</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Departments"
+                                <a class="nav-link  " asp-area="" asp-controller="Departments"
                                    asp-action="Index">Departments</a>
                             </li>
                         }
 
-                        <partial name="_LoginPartial" />
+                        
                     </ul>
+
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
