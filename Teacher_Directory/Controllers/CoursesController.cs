@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Teacher_Directory.Areas.Identity.Data;
 using Teacher_Directory.Models;
+using Teacher_Directory.ViewModels;
 
 namespace Teacher_Directory.Controllers
 {
@@ -22,8 +23,19 @@ namespace Teacher_Directory.Controllers
         // GET: Courses
         public async Task<IActionResult> Index()
         {
-            var dBContext = _context.Course.Include(c => c.Subject).Include(c => c.Teacher);
-            return View(await dBContext.ToListAsync());
+            var courses = await _context.Course
+            .Select(c => new CourseIndexViewModels
+            {
+                CourseName = c.CourseName,
+                Id = c.Id,
+                Room_Num = c.Room_Num,
+                Year = c.Year,
+                Teacher = c.Teacher,
+                Subject = c.Subject
+            })
+            .ToListAsync();
+
+            return View(courses);
         }
 
         // GET: Courses/Details/5
@@ -59,7 +71,7 @@ namespace Teacher_Directory.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Room_Num,Year,Name,TeacherId,SubjectId")] Course course)
+        public async Task<IActionResult> Create([Bind("Id,CourseName,Room_Num,Year,Name,TeacherId,SubjectId")] Course course)
         {
             if (ModelState.IsValid)
             {
@@ -95,7 +107,7 @@ namespace Teacher_Directory.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Room_Num,Year,Name,TeacherId,SubjectId")] Course course)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CourseName,Room_Num,Year,Name,TeacherId,SubjectId")] Course course)
         {
             if (id != course.Id)
             {
