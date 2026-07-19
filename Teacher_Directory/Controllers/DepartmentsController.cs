@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Teacher_Directory.Areas.Identity.Data;
 using Teacher_Directory.Models;
+using Teacher_Directory.ViewModels;
 
 namespace Teacher_Directory.Controllers
 {
@@ -22,7 +23,16 @@ namespace Teacher_Directory.Controllers
         // GET: Departments
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Department.ToListAsync());
+            var departments = await _context.Department
+               .Select(d => new DepartmentIndexViewModels
+               {
+                   Id = d.Id,
+                   DepartmentName = d.DepartmentName,
+                   TeacherCount = d.Teachers.Count(),
+                   SubjectCount = d.Subjects.Count()
+               })
+               .ToListAsync();
+            return View(departments);
         }
 
         // GET: Departments/Details/5
