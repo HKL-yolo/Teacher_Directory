@@ -1,9 +1,16 @@
-﻿namespace Teacher_Directory.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Teacher_Directory.Models
 {
     public class Subject
     {
         public int Id { get; set; }
         public required string SubjectName { get; set; }
         public ICollection<Course>? Course { get; set; }
+
+        [Display(Name = "Department")]
+        [Required(ErrorMessage = "Please select a department.")]
+        public int DepartmentId { get; set; }
+        public Department? Department { get; set; }
     }
 }
