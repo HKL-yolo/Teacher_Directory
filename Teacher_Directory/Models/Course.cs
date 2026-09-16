@@ -7,13 +7,11 @@ namespace Teacher_Directory.Models
         public int Id { get; set; }
         public string CourseName { get; set; }
 
-        [RegularExpression(@"^[A-E]\d{2}$", ErrorMessage = "Room number is not valid.")]
+        [RegularExpression(@"^[A-E]\d{2}$", ErrorMessage = "Please enter correct room number")]
         public string Room_Num { get; set; }
         [Range(9, 13, ErrorMessage = "Please enter correct year level")]
         public int Year { get; set; }
-
-        // Del Name later 
-        [Display(Name = "Teacher code")]
+        [Display(Name = "Teacher")]
         public int? TeacherId { get; set; }
         public Teacher? Teacher { get; set; }
         [Display(Name = "Subject")]
