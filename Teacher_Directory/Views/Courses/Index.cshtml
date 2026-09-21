@@ -62,7 +62,7 @@
                                 @item.Year
                             </td>
                             <td>
-                                @item.Subject.SubjectName
+                                @(item.Subject?.SubjectName ?? "N/A")
                             </td>
                             <td>
                                 @item.Teacher.FullName

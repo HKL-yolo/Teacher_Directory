@@ -97,12 +97,12 @@
                                 @item.Email
                             </td>
 
-                            <!-- Email -->
+                            <!-- Department -->
                             <td>
-                                @item.Department.DepartmentName
+                                @(item.Department?.DepartmentName ?? "N/A")
                             </td>
 
-                            <!-- Subject -->
+                            <!-- Position -->
                             <td>
                                 @item.Position
                             </td>

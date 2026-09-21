@@ -283,7 +283,7 @@ namespace Teacher_Directory.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DepartmentId")
+                    b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("SubjectName")
@@ -305,7 +305,7 @@ namespace Teacher_Directory.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DepartmentId")
+                    b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -402,11 +402,13 @@ namespace Teacher_Directory.Migrations
                 {
                     b.HasOne("Teacher_Directory.Models.Subject", "Subject")
                         .WithMany("Course")
-                        .HasForeignKey("SubjectId");
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Teacher_Directory.Models.Teacher", "Teacher")
                         .WithMany("Course")
-                        .HasForeignKey("TeacherId");
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Subject");
 
@@ -418,8 +420,7 @@ namespace Teacher_Directory.Migrations
                     b.HasOne("Teacher_Directory.Models.Department", "Department")
                         .WithMany("Subjects")
                         .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Department");
                 });
@@ -429,8 +430,7 @@ namespace Teacher_Directory.Migrations
                     b.HasOne("Teacher_Directory.Models.Department", "Department")
                         .WithMany("Teachers")
                         .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Department");
                 });

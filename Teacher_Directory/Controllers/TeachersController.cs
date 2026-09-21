@@ -248,15 +248,28 @@ namespace Teacher_Directory.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var teacher = await _context.Teacher.FindAsync(id);
+
             if (teacher != null)
             {
+                // Find all courses belonging to this teacher
+                var courses = await _context.Course
+                    .Where(c => c.TeacherId == id)
+                    .ToListAsync();
+
+                // Delete courses first
+                _context.Course.RemoveRange(courses);
+
+                // Save course deletion first
+                await _context.SaveChangesAsync();
+
+                // Then delete teacher
                 _context.Teacher.Remove(teacher);
+
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
         private bool TeacherExists(int id)
         {
             return _context.Teacher.Any(e => e.Id == id);

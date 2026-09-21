@@ -9,8 +9,7 @@ namespace Teacher_Directory.Models
         public ICollection<Course>? Course { get; set; }
 
         [Display(Name = "Department")]
-        [Required(ErrorMessage = "Please select a department.")]
-        public int DepartmentId { get; set; }
+        public int? DepartmentId { get; set; }
         public Department? Department { get; set; }
     }
 }

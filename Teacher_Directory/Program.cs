@@ -7,7 +7,11 @@ var connectionString = builder.Configuration.GetConnectionString("DBContextConne
 
 builder.Services.AddDbContext<DBContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<DBContext>();
+builder.Services.AddDefaultIdentity<User>(
+    options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<DBContext>();
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -21,15 +25,22 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+//using (var scope = app.Services.CreateScope())
+//{
+//    var services = scope.ServiceProvider;
+//    var context = services.GetRequiredService<DBContext>();
+//    DbInitializer.Initialize(context);
+//}
 using (var scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<DBContext>();
-    DbInitializer.Initialize(context);
+    await DbInitializer.Initialize(scope.ServiceProvider);
 }
+
 app.UseHttpsRedirection();
 app.UseRouting();
 
+//app.UseAuthorization();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

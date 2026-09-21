@@ -150,12 +150,37 @@ namespace Teacher_Directory.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var department = await _context.Department.FindAsync(id);
+
             if (department != null)
             {
+                // Keep teachers, only remove their department
+                var teachers = await _context.Teacher
+                    .Where(t => t.DepartmentId == id)
+                    .ToListAsync();
+
+                foreach (var teacher in teachers)
+                {
+                    teacher.DepartmentId = null;
+                }
+
+                // Keep subjects, only remove their department
+                var subjects = await _context.Subject
+                    .Where(s => s.DepartmentId == id)
+                    .ToListAsync();
+
+                foreach (var subject in subjects)
+                {
+                    subject.DepartmentId = null;
+                }
+
+                // Save first so no Teacher/Subject references this Department anymore
+                await _context.SaveChangesAsync();
+
+                // Now delete ONLY the department
                 _context.Department.Remove(department);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
