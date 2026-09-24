@@ -7,7 +7,7 @@ namespace Teacher_Directory.Models
         public int Id { get; set; }
         public string CourseName { get; set; }
 
-        [RegularExpression(@"^[A-E]\d{2}$", ErrorMessage = "Please enter correct room number")]
+        [RegularExpression(@"^[A-F]\d{2}$", ErrorMessage = "Please enter correct room number")]
         public string Room_Num { get; set; }
         [Range(9, 13, ErrorMessage = "Please enter correct year level")]
         public int Year { get; set; }
